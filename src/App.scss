@@ -1,3 +1,11 @@
 .map {
   min-height: 600px;
 }
+
+.marker {
+  background-image: url("./assets/car.png");
+  background-size: cover;
+  width: 25px;
+  height: 25px;
+  cursor: grab;
+}
