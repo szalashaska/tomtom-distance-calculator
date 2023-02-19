@@ -1,11 +1,28 @@
-.map {
-  min-height: 600px;
+.app {
+  margin-inline: auto;
+  max-width: 1200px;
+  padding: 2rem;
 }
 
-.marker {
+.map {
+  min-height: 600px;
+  margin-bottom: 2rem;
+}
+
+.driver-marker {
   background-image: url("./assets/car.png");
   background-size: cover;
-  width: 25px;
-  height: 25px;
+  width: 45px;
+  aspect-ratio: 1 / 1;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   cursor: grab;
+}
+
+.delivery-marker {
+  background: red;
+  width: 25px;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
