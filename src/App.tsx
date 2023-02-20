@@ -1,6 +1,7 @@
 import {
   ChangeEvent,
   Dispatch,
+  FormEvent,
   SetStateAction,
   useEffect,
   useRef,
@@ -34,6 +35,8 @@ function App() {
   const [map, setMap] = useState<tt.Map | null>(null);
   const [longitude, setLongitude] = useState<number>(-0.112869);
   const [latitude, setLatitude] = useState<number>(51.504);
+  const [latitudeInput, setLatitudeInput] = useState<number>(51.504);
+  const [longitudeInput, setLongitudeInput] = useState<number>(-0.112869);
   const destinationRef = useRef<tt.LngLat[]>([]);
 
   const handleUserInput: (
@@ -41,8 +44,14 @@ function App() {
     setAction: Dispatch<SetStateAction<number>>
   ) => void = (e, setAction) => {
     const userInput = +e.target.value;
-    if (isNaN(userInput) || userInput < -90 || userInput > 90) return;
+    if (userInput < -90 || userInput > 90) return;
     setAction(userInput);
+  };
+
+  const handleSubmit: (e: FormEvent<HTMLFormElement>) => void = (e) => {
+    e.preventDefault();
+    if (!isNaN(longitudeInput)) setLongitude(latitudeInput);
+    if (!isNaN(latitudeInput)) setLatitude(latitudeInput);
   };
 
   const createPopup: () => tt.Popup = () => {
@@ -206,29 +215,31 @@ function App() {
         <div className="map" ref={mapRef} />
         <div className="searchbar">
           <h1>Where to?</h1>
-          <label htmlFor="latitude">Latitude:</label>
-          <input
-            value={latitude}
-            type="text"
-            id="latitude"
-            className="latitude"
-            placeholder="Latitude..."
-            onChange={(e) => {
-              handleUserInput(e, setLatitude);
-            }}
-          />
-          <label htmlFor="longitude">Longitude:</label>
-
-          <input
-            value={longitude}
-            type="text"
-            id="longitude"
-            className="longitude"
-            placeholder="Longitude..."
-            onChange={(e) => {
-              handleUserInput(e, setLongitude);
-            }}
-          />
+          <form onSubmit={handleSubmit}>
+            <label htmlFor="latitude">Latitude:</label>
+            <input
+              value={latitudeInput}
+              type="number"
+              id="latitude"
+              className="latitude"
+              placeholder="Latitude..."
+              onChange={(e) => {
+                handleUserInput(e, setLatitudeInput);
+              }}
+            />
+            <label htmlFor="longitude">Longitude:</label>
+            <input
+              value={longitudeInput}
+              type="number"
+              id="longitude"
+              className="longitude"
+              placeholder="Longitude..."
+              onChange={(e) => {
+                handleUserInput(e, setLongitudeInput);
+              }}
+            />
+            <button type="submit">Submit</button>
+          </form>
         </div>
       </div>
     </>
